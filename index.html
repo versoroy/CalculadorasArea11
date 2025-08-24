@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HERRAMIENTAS - AREA 11</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HERRAMIENTAS - AREA 11</h1>
+            <div class="header-actions">
+                <button id="global-reset-btn" class="print-btn-global hidden" aria-label="Limpiar Datos">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                </button>
+                <button id="global-print-btn" class="print-btn-global" aria-label="Imprimir Simulación">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main>
+             <aside class="sidebar">
+                <nav class="tool-nav">
+                    <a href="#" class="tool-link active" data-calculator="single-loan-calculator">
+                        <h4>Calculadora Préstamo</h4>
+                    </a>
+                    <a href="#" class="tool-link" data-calculator="loan-calculator">
+                        <h4>Comparador de Préstamos</h4>
+                    </a>
+                     <a href="#" class="tool-link" data-calculator="puf-comparator">
+                        <h4>Comparador PUF</h4>
+                    </a>
+                    <a href="#" class="tool-link" data-calculator="payroll-calculator">
+                        <h4>Calculadora de Nóminas</h4>
+                    </a>
+                </nav>
+            </aside>
+            <div class="main-content">
+                <!-- Loan Comparator Calculator -->
+                <div id="loan-calculator" class="calculator hidden">
+                    <div class="panel common-panel">
+                         <div class="input-grid">
+                            <div class="input-group">
+                                <label for="common-amount">Importe Solicitado (€)</label>
+                                <input id="common-amount" type="text" value="200.000" placeholder="Ej: 200.000">
+                            </div>
+                            <div class="input-group">
+                                <label for="common-term">Plazo del Préstamo (Meses)</label>
+                                <input id="common-term" type="text" inputmode="numeric" value="360" placeholder="Ej: 360">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="panel" id="loan1-panel">
+                            <div class="panel-header">
+                                <h3>Préstamo 1</h3>
+                                <button class="amortization-btn" data-loan="1">Ver Amortización</button>
+                            </div>
+                            <div class="input-result-group">
+                                <label for="loan1-interest">Tasa de Interés Anual (%)</label>
+                                <div class="input-result-container">
+                                    <input id="loan1-interest" type="text" inputmode="decimal" value="5" placeholder="Ej: 5">
+                                    <div class="inline-result">
+                                        <span id="loan1-monthly-payment" class="value primary"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-result-group">
+                                <label for="loan1-opening-fee">Comisión de Apertura (%)</label>
+                                <div class="input-result-container">
+                                    <input id="loan1-opening-fee" type="text" inputmode="decimal" value="0.5" placeholder="Ej: 0.5">
+                                    <div class="inline-result">
+                                        <span id="loan1-opening-fee-amount" class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="loan-savings-display hidden"></div>
+                        </div>
+                        <div class="panel" id="loan2-panel">
+                             <div class="panel-header">
+                                <h3>Préstamo 2</h3>
+                                <button class="amortization-btn" data-loan="2">Ver Amortización</button>
+                            </div>
+                            <div class="input-result-group">
+                                <label for="loan2-interest">Tasa de Interés Anual (%)</label>
+                                <div class="input-result-container">
+                                    <input id="loan2-interest" type="text" inputmode="decimal" value="4.5" placeholder="Ej: 4.5">
+                                    <div class="inline-result">
+                                        <span id="loan2-monthly-payment" class="value primary"></span>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="input-result-group">
+                                <label for="loan2-opening-fee">Comisión de Apertura (%)</label>
+                                <div class="input-result-container">
+                                    <input id="loan2-opening-fee" type="text" inputmode="decimal" value="1.0" placeholder="Ej: 1.0">
+                                     <div class="inline-result">
+                                        <span id="loan2-opening-fee-amount" class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="loan-savings-display hidden"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Loan Calculator -->
+                <div id="single-loan-calculator" class="calculator">
+                    <div class="panel">
+                        <div class="sl-top-panel-grid">
+                            <div class="sl-inputs">
+                                <div class="sl-input-row">
+                                    <label for="sl-amount">Capital del Préstamo</label>
+                                    <div class="sl-input-wrapper">
+                                        <input id="sl-amount" type="text" value="200.000">
+                                        <span class="input-symbol">€</span>
+                                    </div>
+                                </div>
+                                <div class="sl-input-row">
+                                    <label for="sl-interest">Tipo de Interés</label>
+                                    <div class="sl-input-wrapper">
+                                        <input id="sl-interest" type="text" inputmode="decimal" value="5">
+                                        <span class="input-symbol">%</span>
+                                    </div>
+                                </div>
+                                <div class="sl-input-row">
+                                    <label for="sl-term">Plazo</label>
+                                    <div class="sl-input-wrapper">
+                                        <input id="sl-term" type="text" inputmode="numeric" value="360">
+                                        <span class="input-symbol">meses</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sl-result">
+                                <div class="result-display">
+                                    <span class="label">Cuota Mensual</span>
+                                    <span id="sl-monthly-payment" class="value"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="sl-summary-panel" class="panel sl-summary-panel hidden">
+                        <div class="sl-summary-details">
+                            <div class="sl-summary-row">
+                                <span class="label">Total Capital</span>
+                                <span id="sl-summary-capital" class="value"></span>
+                            </div>
+                            <div class="sl-summary-row">
+                                <span class="label">Total Intereses</span>
+                                <span id="sl-summary-interest" class="value"></span>
+                            </div>
+                            <div class="sl-summary-row total">
+                                <span class="label">Coste Total</span>
+                                <span id="sl-summary-total" class="value"></span>
+                            </div>
+                        </div>
+                        <div class="sl-summary-chart">
+                            <canvas id="sl-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div id="sl-table-panel" class="panel hidden">
+                        <div class="table-container">
+                            <table class="amortization-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mes</th>
+                                        <th>Cuota</th>
+                                        <th>Capital</th>
+                                        <th>Intereses</th>
+                                        <th>Capital Pendiente</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sl-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PUF Comparator -->
+                <div id="puf-comparator" class="calculator hidden">
+                    <div class="panel common-panel">
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="puf-capital">Capital del Préstamo (€)</label>
+                                <input id="puf-capital" type="text" value="200.000" placeholder="Ej: 200.000">
+                            </div>
+                            <div class="input-group">
+                                <label for="puf-amount">Importe del PUF (€)</label>
+                                <input id="puf-amount" type="text" value="15.000" placeholder="Ej: 15.000">
+                            </div>
+                            <div class="input-group">
+                                <label for="puf-interest">Tipo de Interés (sin PUF) (%)</label>
+                                <input id="puf-interest" type="text" inputmode="decimal" value="5" placeholder="Ej: 5">
+                            </div>
+                            <div class="input-group">
+                                <label for="puf-term">Plazo (Meses)</label>
+                                <input id="puf-term" type="text" inputmode="numeric" value="360" placeholder="Ej: 360">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="panel" id="puf-panel-with">
+                            <div class="panel-header">
+                                <h3>CON PUF</h3>
+                            </div>
+                            <div class="result-display-simple">
+                                <span class="label">Cuota Mensual</span>
+                                <span id="puf-monthly-payment-with" class="value primary"></span>
+                            </div>
+                             <div class="result-display-simple-details">
+                                <span class="label">Capital Total:</span>
+                                <span id="puf-total-capital-with" class="value-detail"></span>
+                            </div>
+                             <div class="result-display-simple-details">
+                                <span class="label">Interés Aplicado:</span>
+                                <span id="puf-interest-rate-with" class="value-detail"></span>
+                            </div>
+                            <div class="puf-savings-display hidden">
+                                <div class="puf-savings-item">
+                                    <span class="label">Ahorro Mensual</span>
+                                    <span class="value" data-savings-type="monthly"></span>
+                                </div>
+                                <div class="puf-savings-item">
+                                    <span class="label">Ahorro Total</span>
+                                    <span class="value" data-savings-type="total"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel" id="puf-panel-without">
+                             <div class="panel-header">
+                                <h3>SIN PUF</h3>
+                            </div>
+                            <div class="result-display-simple">
+                                <span class="label">Cuota Mensual</span>
+                                <span id="puf-monthly-payment-without" class="value primary"></span>
+                            </div>
+                            <div class="result-display-simple-details">
+                                <span class="label">Capital Total:</span>
+                                <span id="puf-total-capital-without" class="value-detail"></span>
+                            </div>
+                             <div class="result-display-simple-details">
+                                <span class="label">Interés Aplicado:</span>
+                                <span id="puf-interest-rate-without" class="value-detail"></span>
+                            </div>
+                            <div class="puf-savings-display hidden">
+                                <div class="puf-savings-item">
+                                    <span class="label">Ahorro Mensual</span>
+                                    <span class="value" data-savings-type="monthly"></span>
+                                </div>
+                                <div class="puf-savings-item">
+                                    <span class="label">Ahorro Total</span>
+                                    <span class="value" data-savings-type="total"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payroll Calculator -->
+                <div id="payroll-calculator" class="calculator hidden">
+                    <div class="panel">
+                        <div class="payroll-grid">
+                            <div class="payroll-grid-header">
+                                <span></span>
+                                <span>Nómina 1</span>
+                                <span>Nómina 2</span>
+                            </div>
+
+                            <div class="payroll-section-title"><h4>Conceptos Fijos</h4></div>
+                            <div class="payroll-grid-row">
+                                <label>Salario Base</label>
+                                <input id="pc-m1-salario-base" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-salario-base" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Pagas extra prorrateadas</label>
+                                <input id="pc-m1-pagas-extra" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-pagas-extra" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Antigüedad/Trienios/Sexenios</label>
+                                <input id="pc-m1-antiguedad" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-antiguedad" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Plus convenio</label>
+                                <input id="pc-m1-plus-convenio" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-plus-convenio" type="text" value="0" inputmode="numeric">
+                            </div>
+                             <div class="payroll-grid-row">
+                                <label>Complemento destino/Puesto/Cargo</label>
+                                <input id="pc-m1-complemento-destino" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-complemento-destino" type="text" value="0" inputmode="numeric">
+                            </div>
+                             <div class="payroll-grid-row">
+                                <label>Complemento polivalencia</label>
+                                <input id="pc-m1-complemento-polivalencia" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-complemento-polivalencia" type="text" value="0" inputmode="numeric">
+                            </div>
+                             <div class="payroll-grid-row">
+                                <label>Complemento específico</label>
+                                <input id="pc-m1-complemento-especifico" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-complemento-especifico" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Complemento actividad</label>
+                                <input id="pc-m1-complemento-actividad" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-complemento-actividad" type="text" value="0" inputmode="numeric">
+                            </div>
+
+                            <div class="payroll-grid-row payroll-total-row payroll-special-total">
+                                <label>TOTAL FIJO BRUTO</label>
+                                <span id="pc-m1-total-fijos-bruto"></span>
+                                <span id="pc-m2-total-fijos-bruto"></span>
+                            </div>
+
+                            <div class="payroll-section-title"><h4>Conceptos Variables</h4></div>
+                            <div class="payroll-grid-row">
+                                <label>Variable 1</label>
+                                <input id="pc-m1-variable-1" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-variable-1" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Variable 2</label>
+                                <input id="pc-m1-variable-2" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-variable-2" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Variable 3</label>
+                                <input id="pc-m1-variable-3" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-variable-3" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Variable 4</label>
+                                <input id="pc-m1-variable-4" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-variable-4" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Variable 5</label>
+                                <input id="pc-m1-variable-5" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-variable-5" type="text" value="0" inputmode="numeric">
+                            </div>
+                            <div class="payroll-grid-row">
+                                <label>Variable 6</label>
+                                <input id="pc-m1-variable-6" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-variable-6" type="text" value="0" inputmode="numeric">
+                            </div>
+
+                             <div class="payroll-grid-row payroll-total-row payroll-special-total">
+                                <label>TOTAL VARIABLE BRUTO</label>
+                                <span id="pc-m1-total-variables-bruto"></span>
+                                <span id="pc-m2-total-variables-bruto"></span>
+                            </div>
+
+                             <div class="payroll-grid-row payroll-total-row payroll-special-total">
+                                <label>BRUTO TOTAL</label>
+                                <span id="pc-m1-bruto-total"></span>
+                                <span id="pc-m2-bruto-total"></span>
+                            </div>
+
+                             <div id="pc-deductions-row" class="payroll-grid-row payroll-total-row">
+                                <label>TOTAL DEDUCCIONES</label>
+                                <input id="pc-m1-deducciones" type="text" value="0" inputmode="numeric">
+                                <input id="pc-m2-deducciones" type="text" value="0" inputmode="numeric">
+                            </div>
+                        </div>
+                        
+                        <div id="payroll-results-grid"></div>
+
+                         <div class="payroll-final-result">
+                            <div class="payroll-final-result-container">
+                                <div class="final-result-item">
+                                    <span class="label">MEDIA FIJOS</span>
+                                    <span id="pc-media-fijos" class="value"></span>
+                                </div>
+                                <div class="final-result-item">
+                                    <span class="label">MEDIA VARIABLES</span>
+                                    <span id="pc-media-variables" class="value"></span>
+                                </div>
+                                <div class="final-result-item total">
+                                    <span class="label">MEDIA TOTAL</span>
+                                    <span id="pc-media-total" class="value"></span>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+            </div>
+           
+        </main>
+    </div>
+
+    <!-- Amortization Modal -->
+    <div id="amortization-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modal-title">Cuadro de Amortización</h3>
+            <div class="table-container">
+                <table class="amortization-table">
+                    <thead>
+                        <tr>
+                            <th>Mes</th>
+                            <th>Cuota</th>
+                            <th>Capital</th>
+                            <th>Intereses</th>
+                            <th>Capital Pendiente</th>
+                        </tr>
+                    </thead>
+                    <tbody id="amortization-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
