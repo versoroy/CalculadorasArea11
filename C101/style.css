@@ -1,0 +1,1065 @@
+:root {
+    --bg-primary: #F0F4F8;
+    --bg-secondary: #FFFFFF;
+    --bg-tertiary: #E2E8F0;
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --accent-primary: #3B82F6;
+    --accent-secondary: #2563EB;
+    --border-color: #CBD5E1;
+    --green-accent: #10B981;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    max-width: 1152px; /* max-w-6xl */
+    margin: 0 auto;
+}
+
+header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+header h1 {
+    grid-column: 2;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.header-actions {
+    grid-column: 3;
+    justify-self: end;
+    display: flex;
+    gap: 0.5rem;
+}
+
+main {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+    main {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
+    }
+}
+
+.calculator {
+    display: block;
+}
+
+.common-panel {
+    margin-bottom: 2rem;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .input-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr; /* Stacked on mobile by default */
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .grid-2 {
+         grid-template-columns: repeat(2, 1fr); /* Side-by-side on tablet and larger */
+    }
+}
+
+.panel {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.panel h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    flex-grow: 1;
+}
+
+.amortization-btn {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.amortization-btn:hover {
+    background-color: var(--accent-primary);
+    color: white;
+    border-color: var(--accent-primary);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 0.5rem 0.25rem;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-group select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748B' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.input-group input:focus, .input-group select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+}
+
+.input-result-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-result-group label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.input-result-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    transition: border-color 0.3s;
+}
+
+.input-result-container:focus-within {
+    border-color: var(--accent-primary);
+}
+
+.input-result-container input {
+    flex-grow: 1;
+    width: auto;
+    padding: 0.5rem 0.25rem;
+    background-color: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.input-result-container input:focus {
+    outline: none;
+}
+
+.inline-result {
+    padding: 0.5rem 0.25rem;
+    white-space: nowrap;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+.inline-result .value {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1.125rem;
+}
+
+.inline-result .value.primary {
+    color: var(--accent-primary);
+    font-size: 1.25rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(100, 116, 139, 0.5);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    margin: 5% auto;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+    color: var(--text-secondary);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--text-primary);
+}
+
+.modal-content h3 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.table-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+}
+
+#sl-table-panel {
+    margin-top: 2rem;
+}
+
+.amortization-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.amortization-table th,
+.amortization-table td {
+    padding: 0.75rem;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.amortization-table th {
+    background-color: var(--bg-tertiary);
+    font-weight: 700;
+    color: var(--text-primary);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.amortization-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.amortization-table tbody tr:nth-child(even) {
+    background-color: #F8FAFC; /* very light gray for alternating rows */
+}
+
+.amortization-table td:first-child,
+.amortization-table th:first-child {
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sidebar h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 0 0.5rem;
+}
+
+.tool-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tool-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-secondary);
+    padding: 0.4rem 1rem;
+    min-height: 3.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s, color 0.2s;
+    cursor: pointer;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.tool-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px -3px rgba(0,0,0,0.08);
+}
+
+.tool-link.active {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tool-link.active h4 {
+     color: white;
+}
+
+
+.tool-link h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    transition: color 0.2s;
+    line-height: 1.3;
+    text-align: center;
+}
+
+.print-btn-global {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.print-btn-global:hover {
+    background-color: var(--accent-secondary);
+    color: white;
+    border-color: var(--accent-secondary);
+    transform: translateY(-2px);
+}
+
+/* Single Loan Calculator New Styles */
+.sl-top-panel-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .sl-top-panel-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.sl-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.sl-input-row {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.sl-input-row label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    margin-bottom: 0;
+}
+
+.sl-input-wrapper {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    transition: border-color 0.3s;
+}
+
+.sl-input-wrapper:focus-within {
+    border-color: var(--accent-primary);
+}
+
+.sl-input-wrapper input {
+    width: 100%;
+    flex-grow: 1;
+    padding: 0.5rem 0.25rem;
+    background-color: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    text-align: right;
+}
+
+.sl-input-wrapper input:focus {
+    outline: none;
+}
+
+.input-symbol {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    padding-left: 0.25rem;
+}
+
+.sl-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-display {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    width: 100%;
+}
+
+.result-display .label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.result-display .value {
+    display: block;
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    line-height: 1.2;
+}
+
+/* --- Single Loan Summary Panel --- */
+.sl-summary-panel {
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    background-color: #EBF4FF; /* Light blueish */
+    border: 1px solid #BEE3F8;
+    padding: 0.75rem 1.5rem;
+    margin-top: 2rem;
+    flex-direction: row;
+}
+
+.sl-summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem; /* Compact spacing */
+}
+
+.sl-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem; /* Smaller, uniform text */
+}
+
+.sl-summary-row .label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.sl-summary-row .value {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.sl-summary-chart {
+    position: relative;
+    width: 100px; /* Compact chart */
+    height: 100px;
+}
+
+@media (max-width: 767px) {
+    .sl-summary-panel {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .sl-summary-chart {
+        margin: 0.5rem auto 0;
+    }
+}
+
+
+/* --- Unified Payroll Calculator Styles (Ultra Compact) --- */
+#payroll-calculator .panel {
+    padding: 1.5rem; 
+}
+
+#payroll-results-grid {
+    margin-top: 0.25rem;
+}
+
+.payroll-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+}
+
+.payroll-grid-header {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    gap: 0.5rem;
+    padding-bottom: 0.1rem;
+    margin-bottom: 0.1rem;
+    border-bottom: 2px solid var(--border-color);
+    font-weight: 700;
+    font-size: 0.8rem; /* Increased font size */
+    color: var(--text-secondary);
+}
+
+.payroll-grid-header span:first-child {
+    text-align: left;
+}
+.payroll-grid-header span:not(:first-child) {
+    text-align: right;
+}
+
+.payroll-section-title {
+    margin-top: 0.2rem; /* Reduced margin */
+    margin-bottom: 0.1rem;
+}
+.payroll-grid > .payroll-section-title:first-of-type {
+    margin-top: 0;
+}
+
+.payroll-section-title h4 {
+    font-size: 0.8rem; /* Increased font size */
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+.payroll-grid-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    gap: 0.5rem;
+    align-items: center;
+    border-bottom: 1px solid var(--bg-tertiary);
+    padding: 0;
+}
+
+.payroll-grid-row:last-of-type,
+.payroll-grid .payroll-grid-row:last-child {
+    border-bottom: none;
+}
+
+.payroll-grid-row > *:first-child {
+    font-weight: 500;
+    color: var(--text-primary);
+    padding: 0.1rem 0; /* Reduced padding */
+    margin-bottom: 0;
+    font-size: 0.8rem; /* Increased font size */
+    text-align: left;
+}
+
+.payroll-grid-row input {
+    width: 100%;
+    padding: 0.1rem 0.2rem; /* Reduced padding */
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-primary);
+    font-size: 0.8rem; /* Increased font size */
+    transition: border-color 0.2s;
+    text-align: right;
+}
+
+.payroll-grid-row input:focus {
+    outline: none;
+    border-bottom-color: var(--accent-primary);
+}
+
+.payroll-grid-row span:not(:first-child) {
+    font-size: 0.8rem; /* Increased font size */
+    text-align: right;
+    padding: 0.1rem 0.2rem; /* Reduced padding */
+}
+
+.payroll-grid-row .concept-highlight {
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+.payroll-grid-row.highlight {
+    font-weight: 700;
+}
+
+.payroll-total-row {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+.payroll-total-row > * {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.payroll-special-total {
+    background-color: var(--bg-tertiary);
+}
+.payroll-grid-row.highlight.payroll-special-total {
+    background-color: #EBF4FF; /* Light blueish */
+    border-top: 1px solid #BEE3F8;
+    border-bottom: 1px solid #BEE3F8;
+    margin-top: 0.25rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+.payroll-grid-row.highlight.payroll-special-total > span {
+    font-size: 0.9rem; /* Increased font size */
+}
+
+.payroll-total-row.payroll-special-total {
+    margin-top: 0.25rem;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.payroll-special-total > label {
+    text-transform: uppercase;
+}
+
+#pc-deductions-row {
+    padding-top: 0.25rem;
+}
+
+/* New Final Result Styles */
+.payroll-final-result {
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    background-color: #E6F7F5; /* Light teal/green */
+    border: 1px solid #B0E0E6; /* Lighter teal/blue */
+    border-radius: 1rem;
+}
+
+.payroll-final-result-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: stretch;   /* Allow items to fill width for right alignment */
+    gap: 0;            /* Tighter gap */
+}
+
+.final-result-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end; /* Align content to the right */
+    align-items: baseline;
+    width: 100%;
+    gap: 0.75rem; /* Space between label and value */
+}
+
+.final-result-item .label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.final-result-item .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green-accent);
+}
+
+.final-result-item.total {
+    margin-top: 0.2rem;
+    padding-top: 0.2rem;
+    border-top: 1px solid #B0E0E6;
+}
+
+.final-result-item.total .label {
+    font-weight: 700;
+}
+
+.final-result-item.total .value {
+    font-size: 1.75rem;
+}
+
+
+/* --- Single Loan Calculator Compaction --- */
+#single-loan-calculator > .panel:first-child {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    gap: 0.75rem;
+}
+
+.sl-top-panel-grid {
+    gap: 1.5rem;
+}
+
+.sl-inputs {
+    gap: 0.75rem;
+}
+
+.result-display {
+    padding: 1rem;
+}
+
+.result-display .value {
+    font-size: 2rem;
+}
+
+#sl-table-panel {
+    margin-top: 2rem;
+}
+
+/* --- Loan Comparator Winner Styles --- */
+.panel.is-winner-loan {
+    background-color: #E6F7F5;
+    border-color: #B0E0E6;
+}
+
+.loan-savings-display {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.panel.is-winner-loan .loan-savings-display {
+    border-top-color: #B0E0E6;
+}
+
+.loan-savings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.loan-savings-item .label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.loan-savings-item .value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--green-accent);
+}
+
+
+/* --- PUF Comparator Result Styles --- */
+.panel.is-winner {
+    background-color: #E6F7F5;
+    border-color: #B0E0E6;
+}
+
+#puf-comparator .panel-header {
+    justify-content: center;
+}
+
+#puf-comparator .panel-header h3 {
+    text-align: center;
+}
+
+.result-display-simple {
+    text-align: center;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.result-display-simple .label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.result-display-simple .value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.result-display-simple .value.primary {
+    color: var(--accent-primary);
+}
+
+.result-display-simple-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    padding-top: 0.25rem;
+}
+
+.result-display-simple-details:first-of-type {
+    padding-top: 0;
+}
+
+.result-display-simple-details .label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.result-display-simple-details .value-detail {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.puf-savings-display {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.panel.is-winner .puf-savings-display {
+    border-top-color: #B0E0E6;
+}
+
+.puf-savings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.puf-savings-item .label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.puf-savings-item .value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--green-accent);
+}
+
+
+/* Print-specific Styles */
+@media print {
+  /* Hide elements */
+  header, .sidebar, .modal, .amortization-btn, .close-button, #sl-summary-chart {
+    display: none !important;
+  }
+
+  /* Show only active calculator */
+  .calculator.hidden {
+    display: none !important;
+  }
+  .calculator:not(.hidden) {
+    display: block !important;
+  }
+
+  /* Basic resets */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
+
+  body, .container {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #fff !important;
+    font-size: 9pt;
+  }
+  
+  main, .main-content {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    gap: 0 !important;
+  }
+
+  /* Use black text but keep important colors */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    color: #000 !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .value, .concept-highlight, .summary-item .value.primary, .value.primary, #sl-monthly-payment {
+      color: var(--accent-primary) !important;
+  }
+  .summary-item .value, #pc-media-fijos, #pc-media-variables, .puf-savings-item .value, .loan-savings-item .value {
+      color: var(--green-accent) !important;
+  }
+  
+  .panel.is-winner, .panel.is-winner-loan {
+      background-color: #E6F7F5 !important;
+  }
+
+  /* Panel styling */
+  .panel, .sl-summary-panel {
+    border: 1px solid #ddd !important;
+    padding: 0.75rem !important;
+    margin-bottom: 1rem !important;
+    page-break-inside: avoid;
+    background-color: #f9f9f9 !important;
+  }
+  
+  h3 {
+    font-size: 14pt !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* LAYOUT PRESERVATION */
+  .grid-2, .sl-top-panel-grid, .sl-summary-panel {
+    display: grid !important;
+    gap: 1rem !important;
+    page-break-inside: avoid;
+  }
+
+  .grid-2 { grid-template-columns: 1fr 1fr !important; }
+  .sl-top-panel-grid { grid-template-columns: 1fr 1fr !important; }
+  .sl-summary-panel { grid-template-columns: 1fr !important; }
+  .payroll-grid, .payroll-grid-row, .payroll-grid-header { display: grid !important; }
+
+
+  /* Make inputs look like static values */
+  input, select, .input-result-container, .sl-input-wrapper {
+    border: none !important;
+    background: none !important;
+    padding: 0 !important;
+    -webkit-appearance: none;
+    appearance: none;
+    font-size: inherit !important;
+    width: auto !important;
+    text-align: right;
+  }
+  
+  .input-group, .input-result-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem !important;
+  }
+  
+  label {
+    margin-bottom: 0 !important;
+  }
+
+  .inline-result, .input-symbol {
+      display: inline !important;
+      padding: 0 0 0 0.25rem !important;
+  }
+
+  /* Table */
+  .table-container {
+    max-height: none !important;
+    overflow: visible !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  table { page-break-inside: auto; border-collapse: collapse; width: 100%;}
+  tr { page-break-inside: avoid; page-break-after: auto; }
+  thead { display: table-header-group; }
+  
+  .amortization-table th {
+    background-color: #f2f2f2 !important;
+  }
+
+  /* Charts */
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
