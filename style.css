@@ -151,101 +151,6 @@ main {
     border-color: var(--accent-primary);
 }
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.input-group label {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-}
-
-.input-group input, .input-group select {
-    width: 100%;
-    padding: 0.5rem 0.25rem;
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid var(--border-color);
-    color: var(--text-primary);
-    font-size: 1rem;
-    transition: border-color 0.3s;
-}
-
-.input-group select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748B' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
-}
-
-.input-group input:focus, .input-group select:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-}
-
-.input-result-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.input-result-group label {
-    font-weight: 600;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-}
-
-.input-result-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border-bottom: 2px solid var(--border-color);
-    transition: border-color 0.3s;
-}
-
-.input-result-container:focus-within {
-    border-color: var(--accent-primary);
-}
-
-.input-result-container input {
-    flex-grow: 1;
-    width: auto;
-    padding: 0.5rem 0.25rem;
-    background-color: transparent;
-    border: none;
-    color: var(--text-primary);
-    font-size: 1rem;
-}
-
-.input-result-container input:focus {
-    outline: none;
-}
-
-.inline-result {
-    padding: 0.5rem 0.25rem;
-    white-space: nowrap;
-    color: var(--text-secondary);
-    text-align: right;
-}
-
-.inline-result .value {
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 1.125rem;
-}
-
-.inline-result .value.primary {
-    color: var(--accent-primary);
-    font-size: 1.25rem;
-}
-
 /* Modal Styles */
 .modal {
     display: none;
@@ -433,6 +338,100 @@ main {
     border-color: var(--accent-secondary);
     transform: translateY(-2px);
 }
+
+/* --- New Loan Comparator Styles --- */
+.comp-inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.input-group-comp {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.input-group-comp label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.input-wrapper-comp {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--border-color);
+    transition: border-color 0.3s;
+}
+
+.input-wrapper-comp:focus-within {
+    border-color: var(--accent-primary);
+}
+
+.input-wrapper-comp input {
+    width: 100%;
+    flex-grow: 1;
+    padding: 0.5rem 0.25rem;
+    background-color: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    text-align: right;
+}
+
+.input-wrapper-comp input:focus {
+    outline: none;
+}
+
+.input-wrapper-comp span {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    padding-left: 0.25rem;
+}
+
+.comp-results-panel {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.comp-result-item {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+}
+
+.comp-result-item.primary {
+    grid-column: 1 / -1; /* Span full width */
+    padding: 0.75rem 1rem;
+}
+
+.comp-result-item .label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.1rem;
+}
+
+.comp-result-item .value {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.comp-result-item.primary .value {
+    font-size: 1.75rem;
+    color: var(--accent-primary);
+}
+
 
 /* Single Loan Calculator New Styles */
 .sl-top-panel-grid {
@@ -813,7 +812,6 @@ main {
 }
 
 .loan-savings-display {
-    margin-top: 1.25rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--border-color);
     display: flex;
@@ -937,6 +935,18 @@ main {
     border-right-color: #EF4444; /* Red */
 }
 
+/* This group is for IBAN calculator, not general purpose */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
 
 @media (max-width: 767px) {
     #iban-result {
@@ -1018,13 +1028,13 @@ main {
   }
 
   /* LAYOUT PRESERVATION */
-  .grid-2, .sl-top-panel-grid, .sl-summary-panel {
+  .grid-2, .sl-top-panel-grid, .sl-summary-panel, .loan-inputs-grid, .loan-results-display {
     display: grid !important;
     gap: 1rem !important;
     page-break-inside: avoid;
   }
 
-  .grid-2 { grid-template-columns: 1fr 1fr !important; }
+  .grid-2, .loan-inputs-grid, .loan-results-display { grid-template-columns: 1fr 1fr !important; }
   .sl-top-panel-grid { grid-template-columns: 1fr 1fr !important; }
   .sl-summary-panel { grid-template-columns: 1fr !important; }
   .payroll-grid, .payroll-grid-row, .payroll-grid-header { display: grid !important; }

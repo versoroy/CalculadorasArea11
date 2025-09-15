@@ -7,6 +7,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const numberValue = parseInt(String(value).replace(/\D/g, ''), 10);
         return isNaN(numberValue) ? '' : new Intl.NumberFormat('es-ES').format(numberValue);
     };
+
+    const parseDecimalValue = (value) => {
+        if (typeof value !== 'string') value = String(value);
+        let cleanValue = value.trim();
+        if (cleanValue === '' || cleanValue === '-') return 0;
+
+        const lastDot = cleanValue.lastIndexOf('.');
+        const lastComma = cleanValue.lastIndexOf(',');
+
+        // If both separators are present, remove the one used for thousands
+        if (lastDot > -1 && lastComma > -1) {
+            if (lastComma > lastDot) { // Comma is decimal (Spanish format)
+                cleanValue = cleanValue.replace(/\./g, ''); // remove dots
+            } else { // Dot is decimal (US format)
+                cleanValue = cleanValue.replace(/,/g, ''); // remove commas
+            }
+        }
+
+        // Standardize decimal separator to a dot
+        cleanValue = cleanValue.replace(',', '.');
+
+        return parseFloat(cleanValue) || 0;
+    };
+
     const parseFormattedAmount = (value) => {
         if (typeof value !== 'string') value = String(value);
         let cleanValue = value.trim();
@@ -69,16 +93,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.tool-link');
 
     const loanCalculator = {
-        commonAmount: document.getElementById('common-amount'),
-        commonTerm: document.getElementById('common-term'),
+        amount1: document.getElementById('loan1-amount'),
+        term1: document.getElementById('loan1-term'),
         interest1: document.getElementById('loan1-interest'),
         openingFee1: document.getElementById('loan1-opening-fee'),
-        monthlyPayment1: document.getElementById('loan1-monthly-payment'),
-        openingFeeAmount1: document.getElementById('loan1-opening-fee-amount'),
+        resMonthly1: document.getElementById('loan1-res-monthly'),
+        resFee1: document.getElementById('loan1-res-fee'),
+        resInterest1: document.getElementById('loan1-res-interest'),
+        resTotal1: document.getElementById('loan1-res-total'),
+
+        amount2: document.getElementById('loan2-amount'),
+        term2: document.getElementById('loan2-term'),
         interest2: document.getElementById('loan2-interest'),
         openingFee2: document.getElementById('loan2-opening-fee'),
-        monthlyPayment2: document.getElementById('loan2-monthly-payment'),
-        openingFeeAmount2: document.getElementById('loan2-opening-fee-amount'),
+        resMonthly2: document.getElementById('loan2-res-monthly'),
+        resFee2: document.getElementById('loan2-res-fee'),
+        resInterest2: document.getElementById('loan2-res-interest'),
+        resTotal2: document.getElementById('loan2-res-total'),
+        
         panel1: document.getElementById('loan1-panel'),
         panel2: document.getElementById('loan2-panel'),
         savingsDisplay1: document.querySelector('#loan1-panel .loan-savings-display'),
@@ -161,13 +193,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Loan Comparator Logic ---
     function calculateLoan() {
-        const commonData = {
-            amount: parseFormattedAmount(loanCalculator.commonAmount.value),
-            loanTermMonths: parseFormattedAmount(loanCalculator.commonTerm.value),
-            openingFeePercentage: 0,
+        const data1 = { 
+            amount: parseFormattedAmount(loanCalculator.amount1.value),
+            loanTermMonths: parseFormattedAmount(loanCalculator.term1.value),
+            annualInterestRate: parseDecimalValue(loanCalculator.interest1.value), 
+            openingFeePercentage: parseDecimalValue(loanCalculator.openingFee1.value) || 0 
         };
-        const data1 = { ...commonData, annualInterestRate: parseFormattedAmount(loanCalculator.interest1.value), openingFeePercentage: parseFormattedAmount(loanCalculator.openingFee1.value) || 0 };
-        const data2 = { ...commonData, annualInterestRate: parseFormattedAmount(loanCalculator.interest2.value), openingFeePercentage: parseFormattedAmount(loanCalculator.openingFee2.value) || 0 };
+        const data2 = { 
+            amount: parseFormattedAmount(loanCalculator.amount2.value),
+            loanTermMonths: parseFormattedAmount(loanCalculator.term2.value),
+            annualInterestRate: parseDecimalValue(loanCalculator.interest2.value), 
+            openingFeePercentage: parseDecimalValue(loanCalculator.openingFee2.value) || 0 
+        };
 
         loanResults[1] = performLoanCalculation(data1);
         loanResults[2] = performLoanCalculation(data2);
@@ -198,10 +235,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateLoanUI(result1, result2) {
-        loanCalculator.monthlyPayment1.textContent = result1 ? formatCurrency(result1.monthlyPayment) : '0,00 €';
-        loanCalculator.openingFeeAmount1.textContent = result1 ? formatCurrency(result1.openingFeeAmount) : '0,00 €';
-        loanCalculator.monthlyPayment2.textContent = result2 ? formatCurrency(result2.monthlyPayment) : '0,00 €';
-        loanCalculator.openingFeeAmount2.textContent = result2 ? formatCurrency(result2.openingFeeAmount) : '0,00 €';
+        const placeholder = '0,00 €';
+        
+        // Update Loan 1 results
+        loanCalculator.resMonthly1.textContent = result1 ? formatCurrency(result1.monthlyPayment) : placeholder;
+        loanCalculator.resFee1.textContent = result1 ? formatCurrency(result1.openingFeeAmount) : placeholder;
+        loanCalculator.resInterest1.textContent = result1 ? formatCurrency(result1.totalInterest) : placeholder;
+        loanCalculator.resTotal1.textContent = result1 ? formatCurrency(result1.totalPayment + result1.openingFeeAmount) : placeholder;
+
+        // Update Loan 2 results
+        loanCalculator.resMonthly2.textContent = result2 ? formatCurrency(result2.monthlyPayment) : placeholder;
+        loanCalculator.resFee2.textContent = result2 ? formatCurrency(result2.openingFeeAmount) : placeholder;
+        loanCalculator.resInterest2.textContent = result2 ? formatCurrency(result2.totalInterest) : placeholder;
+        loanCalculator.resTotal2.textContent = result2 ? formatCurrency(result2.totalPayment + result2.openingFeeAmount) : placeholder;
     }
 
     function updateLoanSummary(result1, result2) {
@@ -291,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateSingleLoan() {
         const data = {
             amount: parseFormattedAmount(singleLoanCalculator.amount.value),
-            annualInterestRate: parseFormattedAmount(singleLoanCalculator.interest.value),
+            annualInterestRate: parseDecimalValue(singleLoanCalculator.interest.value),
             loanTermMonths: parseFormattedAmount(singleLoanCalculator.term.value),
             openingFeePercentage: 0
         };
@@ -605,11 +651,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Loan Comparator Calculator
-        const loanComparatorInputs = [loanCalculator.commonAmount, loanCalculator.commonTerm, loanCalculator.interest1, loanCalculator.openingFee1, loanCalculator.interest2, loanCalculator.openingFee2];
+        const loanComparatorInputs = [
+            loanCalculator.amount1, loanCalculator.term1, loanCalculator.interest1, loanCalculator.openingFee1, 
+            loanCalculator.amount2, loanCalculator.term2, loanCalculator.interest2, loanCalculator.openingFee2
+        ];
         loanComparatorInputs.forEach(input => {
             if(input) input.addEventListener('input', calculateLoan);
         });
-        loanCalculator.commonAmount.addEventListener('input', (e) => e.target.value = formatAmount(e.target.value));
+        loanCalculator.amount1.addEventListener('input', (e) => e.target.value = formatAmount(e.target.value));
+        loanCalculator.amount2.addEventListener('input', (e) => e.target.value = formatAmount(e.target.value));
         loanCalculator.amortizationButtons.forEach(button => button.addEventListener('click', (e) => populateAndShowModal(e.target.dataset.loan)));
         
         // Single Loan Calculator
